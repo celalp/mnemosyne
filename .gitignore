@@ -1,0 +1,16 @@
+*.gz
+*.ipynb
+*.ipynb_checkpoints
+*.json
+*.sif
+*.idea
+*__pycache__
+ccm_benchmate/sequence/databases
+ccm_benchmate/literature/models
+ccm_benchmate/containers
+notebooks
+*.egg-info
+*.egg
+*.whl
+projects
+build
