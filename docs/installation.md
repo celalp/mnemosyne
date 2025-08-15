@@ -4,12 +4,6 @@ title: Installation
 nav_order: 3
 ---
 
-<div style="text-align: center;">
-    <img src="assets/computer.png" width="900" alt="Mnemosyne talking to the 9 muses" class="center">
-</div>
-
-
-
 # Installation Instructions
 
 This is a python project but it does have a few non-python dependencies. I have created an `environment.yaml` file 
