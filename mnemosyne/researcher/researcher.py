@@ -1,8 +1,11 @@
 
 # currently we are only supporting HuggingFace models
 from transformers import AutoModelForCausalLM, AutoTokenizer
+import openai
 
+from mnemosyne.researcher.model_serve import LlamaCppServer
 from mnemosyne.researcher.utils import *
+
 
 class Researcher:
     def __init__(self, name, description, model_name, cache_dir):
@@ -17,11 +20,14 @@ class Researcher:
         self.topics=None
         self.papers=None
 
-    def load(self):
-        model=AutoModelForCausalLM.from_pretrained(self.model_name, cache_dir=self.cache_dir)
-        tokenizer=AutoTokenizer.from_pretrained(self.model_name, cache_dir=self.cache_dir)
-        self.model=model
-        self.tokenizer=tokenizer
+    def load(self, type="huggingface", **kwargs):
+        if type=="huggingface":
+            model=AutoModelForCausalLM.from_pretrained(self.model_name, cache_dir=self.cache_dir)
+            tokenizer=AutoTokenizer.from_pretrained(self.model_name, cache_dir=self.cache_dir)
+            self.model=model
+            self.tokenizer=tokenizer
+        elif type=="llamacpp":
+            server=LlamaCppServer(cache_dir=self.cache_dir, **kwargs)
 
     def vote_on_paper(self, paper_id):
         pass

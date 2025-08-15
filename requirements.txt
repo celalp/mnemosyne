@@ -22,3 +22,6 @@ model2vec
 psycopg2
 pytesseract
 scikit-learn
+openai
+jsonschema
+certifi

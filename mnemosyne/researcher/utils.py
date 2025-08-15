@@ -26,6 +26,20 @@ class Theme:
     theme_embeddings: Optional[list] = None
     votes: Optional[dict] = None # same as above
 
+def generate_prompt(base_prompt, project_description, topicset, abstracts=None):
+    """
+    Generate the prompt for the researcher, these include the base prompt, the project description, from the project metaclass
+    the topicset that is selected randomly and the abstracts. Abstracts are collected by the researcher itself and
+    are then added to the prompt.The model will then be re-initialized.
+    are then added to the prompt.The model will then be re-initialized.
+    :param base_prompt:
+    :param project_description:
+    :param topicset:
+    :param abstracts:
+    :return:
+    """
+    return "\n".join([base_prompt, project_description, topicset])
+
 
 def clusters(embeddings, algorithm="dbscan"):
     """
