@@ -1,0 +1,10 @@
+name: ccm_benchmate
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - postgresql=17.5
+  - python=3.12
+  - tesseract
+  - pip:
+      - torch

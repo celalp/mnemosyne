@@ -1,5 +1,5 @@
 <div style="text-align: center;">
-    <img src="./assets/mnemosyne.png" width="900" alt="Mnemosyne talking to the 9 muses" class="center">
+    <img src="docs/assets/mnemosyne.png" width="900" alt="Mnemosyne talking to the 9 muses" class="center">
 </div>
 
 # Mnemosyne — An Integrated Assistant for Qualitative Research
@@ -62,7 +62,7 @@ human researchers to focus on deeper insights.
 visualizations. 
 + The knowledge base can be used for multiple projects and does not need to re-created every time. 
 
-
+For a more detailed description and instructions please see the documentation site [here](https://celalp.github.io/mnemosyne/).
 
 ## Usage
 

@@ -72,6 +72,6 @@ visualizations.
 
 ## Usage
 
-For installation steps, please see the [installation guide](docs/installation.md).
+For installation steps, please see the installation guide.
 
 Coming soon...
