@@ -1,8 +1,10 @@
 theme: just-the-docs
 
 url: https://celalp.github.io/mnemosyne # The base hostname & protocol for your site, e.g. http://example.com
-baseurl: /your-repo # The subpath of your site, e.g. /blog
+baseurl: /mnemosyne # The subpath of your site, e.g. /blog
 permalink: pretty
+source: docs
+
 
 # Sidebar navigation
 nav:
