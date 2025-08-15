@@ -1,0 +1,36 @@
+theme: just-the-docs
+
+url: https://celalp.github.io/mnemosyne # The base hostname & protocol for your site, e.g. http://example.com
+baseurl: /your-repo # The subpath of your site, e.g. /blog
+permalink: pretty
+
+# Sidebar navigation
+nav:
+  - title: Home
+    url: /
+  - title: Getting Started
+    url: /getting-started/
+  - title: Installation
+    url: /installation/
+  - title: Usage
+    url: /usage/
+  - title: Modules
+    children:
+      - title: Project Meta Class
+        url: /modules/project/
+      - title: Literature
+        url: /modules/literature/
+      - title: Knowledge Balse
+        url: /modules/knowledgebase/
+      - title: Researcher
+        url: /modules/researcher/
+  - title: Contributing
+    url: /contributing/
+
+
+# Optional: Add "Edit this page" links
+gh_edit_link: true
+gh_edit_link_text: "Edit this page on GitHub."
+gh_edit_repository: "https://github.com/your-username/your-repo"
+gh_edit_branch: "main" # or "master"
+gh_edit_source: "docs"
