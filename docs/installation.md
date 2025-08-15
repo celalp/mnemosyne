@@ -5,8 +5,9 @@ nav_order: 3
 ---
 
 <div style="text-align: center;">
-    <img src="assets/mnemosyne.png" width="900" alt="Mnemosyne on a computer" class="center">
+    <img src="assets/computer.png" width="900" alt="Mnemosyne talking to the 9 muses" class="center">
 </div>
+
 
 
 # Installation Instructions
