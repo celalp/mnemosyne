@@ -33,6 +33,6 @@ nav:
 # Optional: Add "Edit this page" links
 gh_edit_link: true
 gh_edit_link_text: "Edit this page on GitHub."
-gh_edit_repository: "https://github.com/your-username/your-repo"
-gh_edit_branch: "main" # or "master"
+gh_edit_repository: "https://github.com/celalp/mnemosyne"
+gh_edit_branch: "master"
 gh_edit_source: "docs"
