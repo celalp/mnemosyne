@@ -5,7 +5,7 @@ nav_order: 3
 ---
 
 <div style="text-align: center;">
-    <img src="assets/installation.png" width="900" alt="Mnemosyne on a computer" class="center">
+    <img src="assets/computer.png" width="900" alt="Mnemosyne on a computer" class="center">
 </div>
 
 
