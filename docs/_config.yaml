@@ -6,7 +6,6 @@ plugins:
 url: https://celalp.github.io # The base hostname & protocol for your site, e.g. http://example.com
 baseurl: /mnemosyne # The subpath of your site, e.g. /blog
 permalink: pretty
-source: docs
 
 
 # Sidebar navigation
