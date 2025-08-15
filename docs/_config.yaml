@@ -1,40 +1,56 @@
-remote_theme: just-the-docs/just-the-docs
+# Site settings
+title: Mnemosyne
+description: A workflow package for qualitative research
+baseurl: "/mnemosyne" # Adjust if your site is not in a subdirectory (e.g., set to "" if served from the root)
+url: "https://celalp.github.io" # Your GitHub Pages URL
+theme: just-the-docs # Use the Just the Docs theme
+permalink: pretty # Cleaner URLs for pages
+
+# Enable collections for documentation
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:path/
+
+# Default settings for collection pages
+defaults:
+  - scope:
+      path: ""
+      type: docs
+    values:
+      layout: default
+      nav_order: 1
+
+# Enable plugins required for GitHub Pages
 plugins:
   - jekyll-remote-theme
-  - jekyll-seo-tag
+  - jekyll-default-layout
+  - jekyll-titles-from-headings
 
-url: https://celalp.github.io # The base hostname & protocol for your site, e.g. http://example.com
-baseurl: /mnemosyne # The subpath of your site, e.g. /blog
-permalink: pretty
+# Just the Docs specific configurations
+logo: "/assets/images/logo.png" # Optional: Path to a logo image in your repository
+favicon_ico: "/assets/images/favicon.ico" # Optional: Path to a favicon
+search_enabled: true # Enable search bar in the sidebar
+search:
+  heading_level: 2
+  previews: 3
+  preview_words_before: 5
+  preview_words_after: 5
+  tokenizer_separator: /[\s/]+/
+aux_links: # Links in the top-right corner
+  "GitHub Repository":
+    - "https://github.com/celalp/mnemosyne"
+aux_links_new_tab: true # Open auxiliary links in new tabs
+heading_anchors: true # Enable anchor links for headings
+footer_content: "© 2025 Mnemosyne. All rights reserved." # Optional footer text
 
+# Navigation settings for the sidebar
+nav_order: 1 # Default navigation order for pages without specific nav_order
+nav_exclude: false # Include pages unless explicitly excluded
+parent: null # Optional: Define parent-child relationships for nested navigation
+has_children: false # Indicate if a page has subpages
+nav_sort: case_insensitive # Sort navigation items case-insensitively
 
-# Sidebar navigation
-nav:
-  - title: Home
-    url: /
-  - title: Getting Started
-    url: /getting-started/
-  - title: Installation
-    url: /installation/
-  - title: Usage
-    url: /usage/
-  - title: Modules
-    children:
-      - title: Project Meta Class
-        url: /modules/project/
-      - title: Literature
-        url: /modules/literature/
-      - title: Knowledge Balse
-        url: /modules/knowledgebase/
-      - title: Researcher
-        url: /modules/researcher/
-  - title: Contributing
-    url: /contributing/
-
-
-# Optional: Add "Edit this page" links
-gh_edit_link: true
-gh_edit_link_text: "Edit this page on GitHub."
-gh_edit_repository: "https://github.com/celalp/mnemosyne"
-gh_edit_branch: "master"
-gh_edit_source: "docs"
+# GitHub Pages specific settings
+github_pages:
+  source: . # Use the root directory or "docs" if your files are in a docs folder

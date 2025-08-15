@@ -1,3 +1,9 @@
+---
+layout: default
+title: Home
+nav_order: 1
+---
+
 <div style="text-align: center;">
     <img src="assets/mnemosyne.png" width="900" alt="Mnemosyne talking to the 9 muses" class="center">
 </div>
