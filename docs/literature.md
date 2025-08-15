@@ -1,8 +1,7 @@
 ---
 layout: default
 title: Literature
-parent: Modules
-nav_order: 2
+nav_order: 6
 ---
 
 # Literature Module

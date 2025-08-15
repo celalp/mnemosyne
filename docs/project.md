@@ -1,8 +1,7 @@
 ---
 layout: default
 title: Project
-parent: Modules
-nav_order: 1
+nav_order: 5
 ---
 
 # Project Meta Class

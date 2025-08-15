@@ -1,8 +1,7 @@
 ---
 layout: default
 title: Knowledgebase
-parent: Modules
-nav_order: 3
+nav_order: 7
 ---
 
 # Knowledgebase Module
