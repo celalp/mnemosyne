@@ -3,7 +3,7 @@ title: Mnemosyne
 description: A workflow package for qualitative research
 baseurl: "/mnemosyne" # Adjust if your site is not in a subdirectory (e.g., set to "" if served from the root)
 url: "https://celalp.github.io" # Your GitHub Pages URL
-theme: just-the-docs # Use the Just the Docs theme
+remote_theme: just-the-docs/just-the-docs # Use the Just the Docs theme
 permalink: pretty # Cleaner URLs for pages
 
 # Enable collections for documentation
