@@ -68,10 +68,10 @@ human researchers to focus on deeper insights.
 visualizations. 
 + The knowledge base can be used for multiple projects and does not need to re-created every time. 
 
+## Installation
 
+For installation steps, please see the [installation](installation.md) guide.
 
 ## Usage
 
-For installation steps, please see the installation guide.
-
-Coming soon...
+Coming soon under [usage](usage.md)!

@@ -19,7 +19,7 @@ I suggest that you move the location of your conda cache to a different location
 is that you can create a [symbolic link](https://stackoverflow.com/questions/1951742/how-can-i-symlink-a-file-in-linux) to your `.cache`, 
 `.singularity` and `.conda` folders in your `~` where the actual folders are in a partition with more storage. 
 
-## Installing ccm_benchmate dependencies
+## Installing mnemosyne dependencies
 
 Here are the instructions for installation. 
 

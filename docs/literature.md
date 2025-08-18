@@ -4,7 +4,7 @@ title: Literature
 nav_order: 6
 ---
 
-# This README is under construction
+![Literature Module](assets/literature.png)
 
 # Literature Module
 
