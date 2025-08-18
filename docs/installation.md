@@ -4,6 +4,8 @@ title: Installation
 nav_order: 3
 ---
 
+![installation](assets/computer.png)
+
 # Installation Instructions
 
 This is a python project but it does have a few non-python dependencies. I have created an `environment.yaml` file 
