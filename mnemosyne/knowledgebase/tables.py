@@ -27,6 +27,7 @@ class Project(Base):
 class Themes(Base):
     __tablename__ = 'themes'
     id = Column(Integer, primary_key=True, autoincrement=True)
+    project_id = Column(Integer, ForeignKey(Project.id), nullable=False)
     theme_id = Column(String, nullable=False)
     theme_name = Column(String, nullable=False)
     theme_description = Column(Text, nullable=True)
@@ -34,6 +35,7 @@ class Themes(Base):
 class Topics(Base):
     __tablename__ = 'topics'
     id = Column(Integer, primary_key=True, autoincrement=True)
+    project_id = Column(Integer, ForeignKey(Project.id), nullable=False)
     topic_id = Column(String, nullable=False)
     topic_name = Column(String, nullable=False)
     topic_description = Column(Text, nullable=True)
@@ -42,11 +44,12 @@ class Topics(Base):
 class Resercher(Base):
     __tablename__ = 'researcher'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String, nullable=False)
+    project_id=Column(Integer, ForeignKey(Project.id), nullable=False)
+    name=Column(String, nullable=False)
     description = Column(Text, nullable=True)
-    project_id = Column(Integer, ForeignKey(Project.id), nullable=False)
     model_name = Column(String, nullable=False)
-    cache_dir = Column(String, nullable=False)
+    cache_dir = Column(String, nullable=True)
+    url=Column(String, nullable=True)
     prompt = Column(Text, nullable=False)
     is_manager=Column(Boolean, nullable=False)
     papers=Column(JSON, nullable=True) #just paper ids, I can also store the paper ids that are not the db ids but pubmed ids
@@ -54,10 +57,10 @@ class Resercher(Base):
     topics=Column(JSON, nullable=True) # same as above, ideally this should be a collection of papers but we are not going to
     #store millions of things in here
 
-
 class Papers(Base):
     __tablename__ = 'papers'
     id = Column(Integer, primary_key=True, autoincrement=True)
+    project_id=Column(Integer, ForeignKey(Project.id), nullable=False)
     source=Column(String, nullable=False) #pubmed or arxiv
     source_id=Column(String, nullable=False)
     title=Column(String, nullable=False)
@@ -70,7 +73,6 @@ class Papers(Base):
                                                  pesisted=True))
     __table_args__ = (Index('ix_abstract_ts_vector',
                             abstract_ts_vector, postgresql_using='gin'),)
-
 
 class Figures(Base):
     __tablename__ = 'figures'
@@ -93,6 +95,7 @@ class Figures(Base):
 
 class Tables(Base):
     __tablename__ = 'tables'
+    id = Column(Integer, primary_key=True, autoincrement=True)
     paper_id = Column(Integer, ForeignKey(Papers.id), nullable=False)
     image_blob = Column(BLOB, nullable=False)
     caption = Column(Text, nullable=True)
