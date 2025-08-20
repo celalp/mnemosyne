@@ -8,16 +8,50 @@ import certifi
 import jsonschema
 from tqdm import tqdm
 
-#TODO this needs to be refactored currently not compatible with the researcher
-class LlamaCppServer:
-    def __init__(self, config, binary_path):
-        """Initialize Llama.cpp server manager.
+from torch.cuda import is_available
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
-        Args:
-            binary_path (str): Path to llama.cpp server binary
-            model_path (str): Path to the model file
-            host (str): Server host (default: localhost)
-            port (int): Server port (default: 8080)
+from mnemosyne.researcher.utils import *
+
+# these are classes that represent different types of models to be served, they will all have a call method that will
+# Hopefully return the desired output
+
+
+class HFModel:
+    def __init__(self, model_name, sys_prompt, **kwargs):
+        self.model_name=model_name
+        self.model = AutoModelForCausalLM.from_pretrained(self.model_name, **kwargs)
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_name, **kwargs)
+        self.messages = [{"role": "system", "content": sys_prompt},
+                    {"role":"user", "content": ""}]
+        self.device = "cuda" if is_available() else "cpu"
+
+    def call(self, user_prompt):
+        messages = self.messages.copy()
+        messages[1]["content"]=user_prompt
+        text = self.tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True,
+        )
+        model_inputs = self.tokenizer([text], return_tensors="pt").to(self.device)
+
+        # conduct text completion
+        generated_ids = self.model.generate(
+            **model_inputs,
+            max_new_tokens=500
+        )
+        output_ids = generated_ids[0][len(model_inputs.input_ids[0]):].tolist()
+
+        content = self.tokenizer.decode(output_ids, skip_special_tokens=True)
+        return content
+
+class LlamaCppModel:
+    def __init__(self, config, binary_path):
+        """
+        #TODO a very detailed description of the model and the config with an example
+        :param config:
+        :param binary_path:
         """
         self.current_directory = os.path.abspath(os.getcwd())
 
@@ -131,7 +165,7 @@ class LlamaCppServer:
             print(f"Failed to stop server: {str(e)}")
             return False
 
-    def single_inference(self, model, note):
+    def single_inference(self, model, sys_prompt, user_prompt,):
         """Run single inference request.
 
         Args:
@@ -142,9 +176,8 @@ class LlamaCppServer:
         Returns:
             Dict: Inference result with validated JSON output
         """
-        user_prompt=prepare_prompt(self.model_dict["model"]["prompt"], note)
         messages=[
-                    {"role":"system", "content":self.model_dict["system_prompt"]},
+                    {"role":"system", "content":sys_prompt},
                     {"role": "user", "content": user_prompt}
         ]
         client=openai.OpenAI(
@@ -172,7 +205,7 @@ class LlamaCppServer:
         except (openai.APIError, jsonschema.ValidationError) as e:
             return {"error": f"Inference failed: {str(e)}"}
 
-    def batch_inference(self, model, notes):
+    def call(self, model, notes):
         """Run batch inference requests.
 
         Args:
@@ -183,6 +216,9 @@ class LlamaCppServer:
         Returns:
             List[Dict]: List of inference results with validated JSON output
         """
+        if isinstance(notes, str):
+            notes = [notes]
+
         results = []
         for note in tqdm(notes, unit=" Notes", desc="Processing: "):
             result = self.single_inference(model, note)
@@ -199,8 +235,26 @@ class LlamaCppServer:
         response = requests.get(f"{self.url}/health", verify=certifi.where())
         return response.status_code == 200
 
-class ModelServe:
-    """
-    this will contain a few methods to serve or connnect to models,
-    the main types will be via llamacpp, huggingface and other closed source models
-    """
+class ClosedModel:
+    def __init__(self, url, sys_prompt, api_key=None, name=None):
+        self.url=url
+        self.api_key=api_key
+        self.name=name
+
+        self.client=openai.OpenAI(
+            api_key=api_key,
+            base_url=url
+        )
+        self.messages = [{"role": "system", "content": sys_prompt},
+                         {"role": "user", "content": ""}]
+
+    def call(self, prompt, **kwargs):
+        messages = self.messages.copy()
+        messages[1]["content"]=prompt
+        response=self.client.chat.completions.create(
+            model=self.name,
+            messages=messages,
+            **kwargs #for model specific stuff like tempreature max tokens etc.
+        )
+        return response.choices[0].message.content
+

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from sqlalchemy import select, insert
 
 from mnemosyne.knowledgebase.knowledgebase import KnowledgeBase
-from mnemosyne.literature.literature import PaperData, Paper, LitSearch
+from mnemosyne.literature.literature import PaperInfo, Paper, LitSearch
 from mnemosyne.researcher.researcher import Researcher, Manager
 
 class ProjectNameError(Exception):
@@ -59,6 +59,8 @@ class Project:
 
     def _kb_create(self):
         self.kb._create_kb()
+
+
 
     #TODO
     def to_kb(self, data):

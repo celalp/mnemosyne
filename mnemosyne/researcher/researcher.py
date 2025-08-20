@@ -1,48 +1,55 @@
 
 # currently we are only supporting HuggingFace models
-from transformers import AutoModelForCausalLM, AutoTokenizer
+
 import openai
 
-from mnemosyne.researcher.model_serve import LlamaCppServer
+from mnemosyne.researcher.model_serve import LlamaCppModel, HFModel, ClosedModel
+from mnemosyne.literature.literature import PaperInfo, Paper
 from mnemosyne.researcher.utils import *
 
 
 class Researcher:
-    def __init__(self, name, description, model_name, cache_dir):
+    def __init__(self, name, description, prompt, interests):
+        """
+        Instantiate a researcher, each researcher should have a uniqute name and a comprehensive description about how they
+        are going to be involved in the research. They should have a list of interests that is overlapping the the overall
+        project goals thare listed in the mnemosyne.project.project.Project class instance.
+        :param name: name of the model
+        :param description: description of the researcher, this should resemble an actual researchers intro page
+        :param prompt: this is a basic system prompt that will be used to generate the prompt for the researcher
+        :param interests: list of strings to specify what the researcher is interested in
+        """
         self.name=name
         self.description=description
-        self.model_name=model_name
-        self.cache_dir=cache_dir
-        self.prompt=None
+        self.prompt=prompt
+        if isinstance(interests, str):
+            self.interests=[interests]
+        else:
+            self.interests=interests
         self.model=None
-        self.tokenizer=None
-        self.themes=None
-        self.topics=None
-        self.papers=None
 
     def load(self, type="huggingface", **kwargs):
         if type=="huggingface":
-            model=AutoModelForCausalLM.from_pretrained(self.model_name, cache_dir=self.cache_dir)
-            tokenizer=AutoTokenizer.from_pretrained(self.model_name, cache_dir=self.cache_dir)
-            self.model=model
-            self.tokenizer=tokenizer
+            self.model=HFModel(**kwargs)
         elif type=="llamacpp":
-            server=LlamaCppServer(cache_dir=self.cache_dir, **kwargs)
+            self.model=LlamaCppModel(**kwargs)
+        else:
+            self.model=ClosedModel(**kwargs)
 
-    def vote_on_paper(self, paper_id):
+    #TODO come up with a way to include all the responsibilities of the researcher
+    def assign_topics(self, chunk):
         pass
 
-    def vote_on_theme(self, theme, chunk):
+    def assign_themes(self, topics):
         pass
 
-    def vote_on_topic(self, topic, chunk):
+    def pick_papers(self, paperlist):
         pass
 
-    def create_topic(self, topic):
+    def read_papers(self, papers):
         pass
 
-    def create_theme(self, theme):
-        pass
+
 
 
 class Manager(Researcher):

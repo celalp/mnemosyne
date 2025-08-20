@@ -11,20 +11,17 @@ class Topic:
 
     once the topics are decided then the researchers will vote on themes and how topcis can be grouped into themes
     """
-    topic_id: str
     topic_name: str
     topic_description: str
+    topic_chunk: Optional[str] = None
     topic_embeddings: Optional[list] = None
-    votes: Optional[dict] = None # the ids of researchers that voted for this topic
-
 
 @dataclass
 class Theme:
-    theme_id: str
     theme_name: str
     theme_description: str
+    theme_topics: Optional[list] = None
     theme_embeddings: Optional[list] = None
-    votes: Optional[dict] = None # same as above
 
 def generate_prompt(base_prompt, project_description, topicset, abstracts=None):
     """
@@ -51,4 +48,5 @@ def clusters(embeddings, algorithm="dbscan"):
     :return:
     """
     pass
+
 
