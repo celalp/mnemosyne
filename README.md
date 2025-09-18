@@ -2,6 +2,17 @@
     <img src="docs/assets/mnemosyne.png" width="900" alt="Mnemosyne talking to the 9 muses" class="center">
 </div>
 
+<p align="center">
+    <a href="" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/celalp/mnemosyne" /></a>
+    <a href="" alt="stars">
+        <img src="https://img.shields.io/github/stars/celalp/mnemosyne" /></a>
+    <a href="" alt="Issues">
+        <img src="https://img.shields.io/github/issues/celalp/mnemosyne" /></a>
+    <a href="https://ccmbioinfo.github.io/ccm_benchmate/">
+        <img alt="Documentation" src="https://img.shields.io/website?url=https%3A%2F%2Fcelalp.github.io%2Fmnemosyne%2F&label=Documentation"></a>
+</p>
+
 # Mnemosyne — An Integrated Assistant for Qualitative Research
 
 Mnemosyne, the Titan goddess of memory, was the daughter of Uranus and Gaia and mother of the nine muses. Inspired by 
