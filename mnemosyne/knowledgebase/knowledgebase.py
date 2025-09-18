@@ -1,5 +1,3 @@
-
-
 from sqlalchemy import MetaData
 from sqlalchemy.orm import sessionmaker
 
@@ -15,7 +13,8 @@ class KnowledgeBase:
         self.engine=engine
         self.meta = MetaData(bind=self.engine)
         self.meta.reflect(bind=self.engine)
-        self.session = sessionmaker(self.engine)
+        session=sessionmaker(self.engine)
+        self.session = session()
         self.db_tables = self.meta.tables
 
     def _create_kb(self):
@@ -25,3 +24,6 @@ class KnowledgeBase:
             self.db_tables = self.meta.tables
         else:
             print("Database already exists")
+
+    def __str__(self):
+        return f"KnowledgeBase with tables {self.engine}"

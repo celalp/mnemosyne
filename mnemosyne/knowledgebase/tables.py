@@ -41,7 +41,7 @@ class Topics(Base):
     topic_description = Column(Text, nullable=True)
     theme_id = Column(String, ForeignKey(Themes.theme_id), nullable=False)
 
-class Resercher(Base):
+class Researcher(Base):
     __tablename__ = 'researcher'
     id = Column(Integer, primary_key=True, autoincrement=True)
     project_id=Column(Integer, ForeignKey(Project.id), nullable=False)
@@ -60,66 +60,88 @@ class Resercher(Base):
 class Papers(Base):
     __tablename__ = 'papers'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    project_id=Column(Integer, ForeignKey(Project.id), nullable=False)
+    project_id = Column(Integer, ForeignKey('project.id'))
+    source_id = Column(String, nullable=False)
     source=Column(String, nullable=False) #pubmed or arxiv
-    source_id=Column(String, nullable=False)
     title=Column(String, nullable=False)
-    doi=Column(String, nullable=True)
     pdf_url = Column(String, nullable=True)
     pdf_path=Column(String, nullable=True)
     abstract=Column(Text, nullable=True)
     abstract_embeddings=Column(Vector(1024))
+    openalex_response=Column(JSONB, nullable=True)
+    full_text = Column(Text, nullable=False)
+    full_text_ts_vector = Column(TSVector, Computed("to_tsvector('english', full_text)", ))
     abstract_ts_vector=Column(TSVector, Computed("to_tsvector('english', abstract)",
-                                                 pesisted=True))
+                                                 persisted=True))
     __table_args__ = (Index('ix_abstract_ts_vector',
-                            abstract_ts_vector, postgresql_using='gin'),)
+                            abstract_ts_vector, postgresql_using='gin'),
+                      UniqueConstraint('source', 'source_id'),
+                      Index('ix_full_text_ts_vector',
+                            full_text_ts_vector, postgresql_using='gin'),
+                      )
+
+class Authors(Base):
+    __tablename__ = 'authors'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    paper_id=Column(Integer, ForeignKey(Papers.id), nullable=False)
+    name=Column(String, nullable=False)
+    affiliation=Column(String, nullable=True)
+
 
 class Figures(Base):
     __tablename__ = 'figures'
     id = Column(Integer, primary_key=True, autoincrement=True)
     paper_id=Column(Integer, ForeignKey(Papers.id), nullable=False)
-    image_blob=Column(BLOB, nullable=False)
-    caption=Column(Text, nullable=True)
+    image_blob=Column(LargeBinary, nullable=False)
     ai_caption=Column(Text, nullable=False)
     image_embeddings=Column(Vector(1024))
-    caption_embeddings=Column(Vector(1024))
     ai_caption_embeddings=Column(Vector(1024))
-    caption_ts_vector=Column(TSVector, Computed("to_tsvector('english', caption)",))
     ai_caption_ts_vector=Column(TSVector, Computed("to_tsvector('english', ai_caption)",))
 
-    __table_args__ = (Index('ix_caption_ts_vector',
-                            caption_ts_vector, postgresql_using='gin'),
-                      Index('ix_ai_caption_ts_vector',
+    __table_args__ = (
+                      Index('ix_ai_figure_caption_ts_vector',
                             ai_caption_ts_vector, postgresql_using='gin'),
                       )
 
 class Tables(Base):
     __tablename__ = 'tables'
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id=Column(Integer, primary_key=True, autoincrement=True)
     paper_id = Column(Integer, ForeignKey(Papers.id), nullable=False)
-    image_blob = Column(BLOB, nullable=False)
-    caption = Column(Text, nullable=True)
+    image_blob = Column(LargeBinary, nullable=False)
     ai_caption = Column(Text, nullable=False)
     image_embeddings = Column(Vector(1024))
-    caption_embeddings = Column(Vector(1024))
     ai_caption_embeddings = Column(Vector(1024))
-    caption_ts_vector = Column(TSVector, Computed("to_tsvector('english', caption)", ))
     ai_caption_ts_vector = Column(TSVector, Computed("to_tsvector('english', ai_caption)", ))
 
-    __table_args__ = (Index('ix_caption_ts_vector',
-                            caption_ts_vector, postgresql_using='gin'),
-                      Index('ix_ai_caption_ts_vector',
+    __table_args__ = (
+                      Index('ix_ai_table_caption_ts_vector',
                             ai_caption_ts_vector, postgresql_using='gin'),
                       )
-
-class BodyText(Base):
-    __tablename__ = 'body_text'
+class ChunkedBodyText(Base):
+    __tablename__ = 'body_text_chunked'
     id = Column(Integer, primary_key=True, autoincrement=True)
     paper_id = Column(Integer, ForeignKey(Papers.id), nullable=False)
     chunk_id=Column(Integer, nullable=False)
-    embedding_mode=Column(String, nullable=False)
     chunk_text=Column(Text, nullable=False)
     chunk_embeddings=Column(Vector(1024))
     chunk_ts_vector = Column(TSVector, Computed("to_tsvector('english', chunk_text)", ))
     __table_args__ = (Index('ix_chunk_ts_vector',
                             chunk_ts_vector, postgresql_using='gin'),)
+
+class References(Base):
+    __tablename__ = 'references'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    source_id=Column(Integer, ForeignKey(Papers.id), nullable=False) #this is the paper
+    target_id=Column(Integer, ForeignKey(Papers.id), nullable=False) #this is the reference
+
+class CitedBy(Base):
+    __tablename__ = 'cited_by'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    source_id=Column(Integer, ForeignKey(Papers.id), nullable=False) #this is the paper
+    target_id=Column(Integer, ForeignKey(Papers.id), nullable=False) #this is the reference
+
+class RelatedWorks(Base):
+    __tablename__ = 'related_works'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    source_id=Column(Integer, ForeignKey(Papers.id), nullable=False) #see above
+    target_id=Column(Integer, ForeignKey(Papers.id), nullable=False)
