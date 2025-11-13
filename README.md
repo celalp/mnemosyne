@@ -9,7 +9,7 @@
         <img src="https://img.shields.io/github/stars/celalp/mnemosyne" /></a>
     <a href="" alt="Issues">
         <img src="https://img.shields.io/github/issues/celalp/mnemosyne" /></a>
-    <a href="https://ccmbioinfo.github.io/ccm_benchmate/">
+    <a href="https://celalp.github.io/mnemosyne">
         <img alt="Documentation" src="https://img.shields.io/website?url=https%3A%2F%2Fcelalp.github.io%2Fmnemosyne%2F&label=Documentation"></a>
 </p>
 
